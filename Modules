@@ -1,0 +1,150 @@
+public class Modules
+{
+    private int Module;
+
+    public Modules(int getmodule)
+    {
+        Module = getmodule;
+    }
+
+    public boolean CheckInput(int input)
+    {
+        if(input < 0 || input >= Module)
+        {
+            System.out.println("This number was not part of the Remainder's Ring, Please enter new one: ");
+            return false;
+        }
+        return true;
+    }
+
+    public void CreateRemaindersRing(int remainderring[])
+    {
+        for (int cnt = 0; cnt < remainderring.length; cnt++)
+        {
+            remainderring[cnt] = cnt;
+        }
+    }
+
+    public void PrintRemRing(int remainderring[])
+    {
+        for (int remringelement:remainderring )
+        {
+            System.out.println(remringelement);
+        }
+    }
+
+    public int Add(int a, int b)
+    {
+        return (a + b) % Module;
+    }
+
+    public int Subtract(int a, int b)
+    {
+        int subtraction = a - b;
+        if(subtraction == 0){return 0;}
+        else if(subtraction > 0 )
+        {
+            return subtraction;
+        }
+        else
+        {
+            return Module - Math.abs(subtraction) % Module;
+        }
+    }
+
+    public int Multiply (int a, int b)
+    {
+        return (a * b) % Module;
+    }
+
+    public int ReciprocalCouplesCount(int reciprocallyarray[])
+    {
+        int cnt = 0, repeatables = 0;
+
+        for (int i = 1; i < Module; i++)
+        {
+            for (int j = 1; j < Module; j++)
+            {
+                if ((reciprocallyarray[j] * reciprocallyarray[i]) % Module == 1)
+                {
+                    cnt++;
+                    if (reciprocallyarray[j] != reciprocallyarray[i])
+                    {
+                        repeatables++;
+                    }
+                }
+            }
+        }
+        return cnt - (repeatables / 2);
+    }
+
+    public void FillReciprocalArray(int Reciprocalarray[], int ReciprocalCouples[][])
+    {
+        int rows = 0;
+        for (int i = 1; i < Module; i++)
+        {
+            for (int j = 1; j < Module; j++)
+            {
+                if ((Reciprocalarray[j] * Reciprocalarray[i]) % Module == 1)
+                {
+                    ReciprocalCouples[rows][0] = Reciprocalarray[i];
+                    ReciprocalCouples[rows][1] = Reciprocalarray[j];
+                    rows++;
+                    Reciprocalarray[j] = 0;
+                }
+            }
+        }
+    }
+
+    public int CheckReciprocals(int RemaindersRing[], int input)
+    {
+
+        for(int i = 1; i < Module;i++)
+        {
+            if((RemaindersRing[i] * input) % Module == 1)
+            {
+                return RemaindersRing[i];
+            }
+        }
+        return 0;
+    }
+
+    public int FirstPowMethod(int base, int power)
+    {
+        int k = 1;
+        while (Math.pow(base,k) % Module != 1 )
+        {
+            k++;
+            System.out.println(k);
+        }
+        power = power % k;
+        return (int)Math.pow(base,power) % Module;
+    }
+
+    public int SecondPowMethod(int base, int power)
+    {
+        int array[] = new int[10];
+        int i = 0;
+        while( power > 0)
+        {
+            array[i] = power % 2;
+            power = power / 2;
+            i++;
+        }
+        int sum = 1;
+        for (int j = 0; j < i; j++)
+        {
+            base = base * base % Module;
+            if (array[j] == 1)
+            {
+                sum = sum * (base * base % Module);
+            }
+        }
+        return sum % Module;
+    }
+    public int SimplePowMethod(int base, int power)
+    {
+        return (int)(Math.pow(base,power)) % Module;
+    }
+
+}
