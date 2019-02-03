@@ -1,0 +1,339 @@
+import java.util.Scanner;
+
+
+public class Main
+{
+
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Please Enter the Modular Number");
+        int Module,Choice,input,input2,Arraysize;
+
+        Module = in.nextInt();
+        while (Module <= 1)
+        {
+            System.out.println("Please input number bigger than 1");
+            Module = in.nextInt();
+        }
+        Modules Modules = new Modules(Module);
+        Logarithms Logarithms = new Logarithms(Module);
+        int RemaindersRing[] = new int[Module];
+        int OperationalArray[] = new int[Module];
+        Modules.CreateRemaindersRing(RemaindersRing);
+        Modules.CreateRemaindersRing(OperationalArray);
+
+        Arraysize = Modules.ReciprocalCouplesCount(OperationalArray);
+        int ReciprocalCouples[][] = new int[Arraysize][2];
+        Modules.FillReciprocalArray(OperationalArray,ReciprocalCouples);
+        System.arraycopy( RemaindersRing, 0, OperationalArray, 0, RemaindersRing.length );
+
+        do
+        {
+            System.out.println("To Display the Remainder's Ring, Please Enter <1>");
+            System.out.println("To add two numbers that are remainders of " + Module + ", Please enter <2>");
+            System.out.println("To subtract two numbers that are remainders of " + Module + ", Please enter <3>");
+            System.out.println("To multiply two numbers that are remainders of " + Module + ", Please enter <4>");
+            System.out.println("To display the Reciprocally Numbers of " + Module + ", Please enter <5>");
+            System.out.println("To See given number's Reciprocal , Please enter <6>");
+            System.out.println("To divide two numbers that are remainders of " + Module + ", Please enter <7>");
+            System.out.println("To power number that is remainder of " + Module + ", Please enter <8>");
+            System.out.println("To Check if the remainder ring of " + Module + " is also remainder field, Please enter <9>");
+            System.out.println("To Check if given number is prime square, Please enter <10>");
+            System.out.println("To Display all prime squares, Please enter <11>");
+            System.out.println("To calculate discrete logarithm, Please enter <12>");
+            System.out.println("To enter another Module, Please enter <13>");
+            System.out.println("To exit the program, Please enter <14>");
+
+            Choice = in.nextInt();
+
+            switch(Choice)
+            {
+                case 1:
+
+                    Modules.PrintRemRing(RemaindersRing);
+
+                    break;
+
+                case 2:
+
+                    System.out.println("Please input two Numbers to add that are remainders of " + Module);
+
+                    input = in.nextInt();
+                    while (Modules.CheckInput(input) == false)
+                    {
+                        input = in.nextInt();
+                    }
+
+                    input2 = in.nextInt();
+                    while (Modules.CheckInput(input2) == false)
+                    {
+                        input2 = in.nextInt();
+                    }
+                    //No need to check with the members of the array itself as they are equal to their indexes and follow the (0, 1 ... Module - 1) pattern
+
+                    System.out.println(input +  " + " + input2 + " Module of " + Module + " = " +Modules.Add(input, input2));
+
+                    break;
+
+                case 3:
+
+                    System.out.println("Please input two Numbers to subtract that are remainders of " + Module);
+
+                    input = in.nextInt();
+                    while (Modules.CheckInput(input) == false)
+                    {
+                        input = in.nextInt();
+                    }
+
+                    input2 = in.nextInt();
+                    while (Modules.CheckInput(input2) == false)
+                    {
+                        input2 = in.nextInt();
+                    }
+
+                    System.out.println(input +  " - " + input2 + " Module of " + Module + " = " +Modules.Subtract(input, input2));
+
+                    break;
+
+                case 4:
+
+                    System.out.println("Please input two Numbers to Multiply that are remainders of " + Module);
+
+                    input = in.nextInt();
+                    while (Modules.CheckInput(input) == false)
+                    {
+                        input = in.nextInt();
+                    }
+
+                    input2 = in.nextInt();
+                    while (Modules.CheckInput(input2) == false)
+                    {
+                        input2 = in.nextInt();
+                    }
+
+                    System.out.println(input +  " * " + input2 + " Module of " + Module + " = " + Modules.Multiply(input, input2));
+
+                    break;
+
+                case 5:
+
+                    for (int rows = 0; rows < Arraysize; rows++)
+                    {
+                        System.out.println((ReciprocalCouples[rows][0]) + " and " + ReciprocalCouples[rows][1]);
+                    }
+                    break;
+
+                case 6:
+
+                    System.out.println("Please input Number to see its reciprocal value in the ring of " + Module);
+
+                    input = in.nextInt();
+                    while (Modules.CheckInput(input) == false)
+                    {
+                        input = in.nextInt();
+                    }
+
+                    int reciprocal = Modules.CheckReciprocals(RemaindersRing, input);
+                    if(reciprocal > 0)
+                        System.out.println("The reciprocal of " + input + " is " + reciprocal);
+
+                    else
+                        System.out.println( input + " Has no reciprocal in this remainder ring");
+
+                    break;
+
+                case 7:
+
+                    System.out.println("Please input two Numbers to divide that are remainders of " + Module);
+
+                    input = in.nextInt();
+                    while (Modules.CheckInput(input) == false)
+                    {
+                        input = in.nextInt();
+                    }
+
+                    input2 = in.nextInt();
+                    while (Modules.CheckInput(input2) == false)
+                    {
+                        input2 = in.nextInt();
+                    }
+
+                    int Reciprocaldivisor = Modules.CheckReciprocals(RemaindersRing, input2);
+
+                    if(Reciprocaldivisor > 0)
+                        System.out.println(input + " / " + input2 + " Module of " + Module + " = " + Modules.Multiply(input, Reciprocaldivisor));
+
+                    else
+                        System.out.println(-1); //-1 means they cannot be divided.
+
+                    break;
+
+                case 8:
+
+                    int choice2;
+                    System.out.println("For very large power with Numbers that has reciprocals, Please press <1>");
+                    System.out.println("For Any number with very large power, Please press <2>");
+                    System.out.println("For simple power, please enter <3>");
+                    choice2 = in.nextInt();
+                    switch (choice2) {
+                        case 1:
+
+                            System.out.println("Please input Number and power ");
+
+                            input = in.nextInt();
+                            while (Modules.CheckInput(input) == false) 
+                            {
+                                input = in.nextInt();
+                            }
+
+                            input2 = in.nextInt();
+
+                            if (Modules.CheckReciprocals(RemaindersRing, input) == 0)
+                                System.out.println("You can't use this method with this input");
+
+                            else
+                                System.out.println(input + " Power of " + input2 + " Module of " + Module + " is " + Modules.FirstPowMethod(input, input2));
+
+                        break;
+
+                        case 2:
+
+                            System.out.println("Please input Number and power ");
+
+                            input = in.nextInt();
+                            while (Modules.CheckInput(input) == false) 
+                            {
+                                input = in.nextInt();
+                            }
+
+                            input2 = in.nextInt();
+
+                            System.out.println(input + " power of " + input2 + " Module of " + Module + " = " + Modules.SecondPowMethod(input, input2));
+                        break;
+
+                        case 3:
+                            System.out.println("Please enter number and power");
+
+                            input = in.nextInt();
+                            while (Modules.CheckInput(input) == false) 
+                            {
+                                input = in.nextInt();
+                            }
+
+                            input2 = in.nextInt();
+
+                            System.out.println(input + " power of " + input2 + " Module of " + Module + " = " + Modules.SimplePowMethod(input, input2));
+
+                            break;
+
+                    }
+
+                    break;
+
+                case 9:
+
+                    System.out.println("This remainder ring is also remainder field: " + Logarithms.Isprime(Module));
+
+                    break;
+
+                case 10:
+
+                    if(Logarithms.Isprime(Module) == true)
+                    {
+                        System.out.println("Please input Number ");
+
+                        input = in.nextInt();
+                        while (Modules.CheckInput(input) == false)
+                        {
+                            input = in.nextInt();
+                        }
+
+                        System.out.println(input + " is prime square: " + Logarithms.IsprimeSquare(RemaindersRing, input));
+                    }
+                    else
+                        System.out.println("Remainder ring is not Remainder field so this operation is not possible");
+
+                    break;
+
+                case 11:
+                    if(Logarithms.Isprime(Module) == true)
+                    {
+                        System.out.println("The prime squares are: ");
+
+                        for (int i = 1; i < Module; i++)
+                        {
+                            if (Logarithms.IsprimeSquare(RemaindersRing, i) == true)
+                            {
+                                System.out.println(i);
+                            }
+                        }
+                    }
+                    else
+                        System.out.println("Remainder ring is not Remainder field so this operation is not possible");
+
+                    break;
+
+                case 12:
+
+                    if(Logarithms.Isprime(Module) == true)
+                    {
+
+                        System.out.println("Please enter the base: ");
+                        input2 = in.nextInt();
+                        System.out.println("Please enter Number ");
+
+                        input = in.nextInt();
+                        while (Modules.CheckInput(input) == false)
+                        {
+                            input = in.nextInt();
+                        }
+
+                        System.out.println("The Discrete Logarithm is " + Logarithms.Discretelogarithm(input, input2));
+
+                    }
+                    else
+                        System.out.println("Remainder ring is not Remainder field so this operation is not possible");
+
+                    break;
+
+                case 13:
+
+                    System.out.println("Please Enter the Modular Number");
+
+                    Module = in.nextInt();
+                    while (Module <= 1)
+                    {
+                        System.out.println("Please input number bigger than 1");
+                        Module = in.nextInt();
+                    }
+                    Modules = new Modules(Module);
+                    Logarithms = new Logarithms(Module);
+                    RemaindersRing = new int[Module];
+                    OperationalArray = new int[Module];
+                    Modules.CreateRemaindersRing(RemaindersRing);
+                    Modules.CreateRemaindersRing(OperationalArray);
+
+                    Arraysize = Modules.ReciprocalCouplesCount(OperationalArray);
+                    ReciprocalCouples = new int[Arraysize][2];
+                    Modules.FillReciprocalArray(OperationalArray,ReciprocalCouples);
+                    System.arraycopy( RemaindersRing, 0, OperationalArray, 0, RemaindersRing.length );
+
+                    break;
+
+                case 14:
+
+                    System.out.println("Thanks for your time!");
+
+                    break;
+
+                default:
+
+                    System.out.println("This number was not recognized, please try again");
+
+                    break;
+            }
+        } while(Choice != 14);
+    }
+}
