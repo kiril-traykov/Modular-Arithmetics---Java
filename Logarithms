@@ -1,0 +1,81 @@
+public class Logarithms
+{
+
+ private int Module;
+
+    public Logarithms(int getmodule)
+    {
+        Module = getmodule;
+    }
+
+    public boolean Isprime(int M)
+    {
+        for(int i = 2; i < M; i++)
+        {
+            if(M % i == 0){return false;}
+        }
+        return true;
+    }
+
+/*
+  public boolean Isprime(int M)
+  {
+      if (Module <= 3)
+      {
+          return true;
+      }
+      if (Module % M == 0)
+      {
+          return false;
+      }
+      if (M > Math.sqrt(Module))
+      {
+          return true;
+      }
+      return Isprime(M + 1);
+  }                                                               //recursive
+*/
+
+    public boolean IsprimeSquare(int[] array,int number)
+    {
+        boolean istrue = false;
+        int temparray[] = new int[Module - 1];
+        int temparray2[] = new int [Module];
+        System.arraycopy( array, 0, temparray2, 0, array.length );
+
+        for(int i = 1; i < Module;i++)
+        {
+            temparray[i - 1] = (int)Math.pow(number,i) % Module;
+            if(number == 0)
+                return false;
+        }
+        for(int i = 0; i < Module - 1;i++)
+        {
+            istrue = false;
+            for(int j = 1; j < Module; j++)
+            {
+                if(temparray[i] == temparray2[j])
+                {
+                    istrue = true;
+                    temparray2[j] = 0;
+                    break;
+                }
+            }
+            if(istrue == false)
+                return false;
+        }
+        return true;
+    }
+
+    public int Discretelogarithm(int input, int base)
+    {
+        for(int i = 0; i < Module;i++)
+        {
+            if((int)Math.pow(base,i) % Module == input)
+                return i;
+        }
+        return -1; //if return -1, operation is not possible
+    }
+
+
+}
